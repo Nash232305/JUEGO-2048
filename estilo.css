@@ -1,0 +1,165 @@
+body{
+    background-image: url(fondo2.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    /*minimizar la imagen*/
+    background-size: 100% 112%;
+}
+
+.puntaje{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: bold;
+    top: 22%;
+    left: 79%;
+    position: absolute;
+    color: white;
+}
+
+.movimientos{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: bold;
+    top: 58%;
+    left: 78%;
+    position: absolute;
+    color: #fff;
+}
+
+.marcador{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    left:77%;
+    top: 30%;
+    position: absolute;
+    font-size: 4px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: skyblue;
+    text-align: center;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.cantidad{
+    font-size: 13px;
+    font-weight: bold;
+    top: 66%;
+    left: 77%;
+    position: absolute;
+    font-size: 4px;
+    border-style: solid;
+    border-radius: 10px 10px 10px 10px;
+    border-width: 2px;
+    border-color: skyblue;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cantidad > input{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width: 156px;
+    height: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    border-style: none;
+    background: rgba(67, 204, 204, 0.397);
+    color: rgb(17, 16, 16);
+}
+
+.marcador>input{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width: 156px;
+    height: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    border-style: none;
+    background: rgba(67, 204, 204, 0.397);
+    color: rgb(17, 16, 16);
+}
+
+.filas{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.columnas{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.filas > div {
+
+    width: 120px;
+    height: 120px;
+    font-size: 45px;
+    /*LOS BORDES*/
+    border-color: rgba(140, 221, 144, 0.63);
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 5px;
+    background-color: hsla(355, 50%, 50%, 0.445);
+}
+
+.contenedor{
+    margin-top: -5px;
+}
+
+.numeros{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 70px;
+    font-weight: bold;
+    color: white;
+}
+
+.numeros>span{
+    font-size: 70px;
+    font-weight: bold;
+    color: white;
+    margin-left: 55px;
+    margin-right: 45px;
+}
+
+.numeros {
+    position: relative;
+    -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
+    font-size: 60px;
+  }
+  .numeros span {
+    font-family: 'Alfa Slab One', cursive;
+    position: relative;
+    display: inline-block;
+    color: #c520208a;
+    text-transform: uppercase;
+    animation: waviy 1s infinite;
+    animation-delay: calc(.1s * var(--i));
+    
+  }
+  @keyframes waviy {
+    0%,40%,100% {
+      transform: translateY(0)
+    }
+    20% {
+      transform: translateY(-45px)
+    }
+}
+
