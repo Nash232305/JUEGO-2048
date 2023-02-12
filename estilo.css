@@ -1,9 +1,6 @@
 body{
     background-image: url(fondo2.gif);
-    background-repeat: no-repeat;
-    background-size: cover;
-    /*minimizar la imagen*/
-    background-size: 100% 112%;
+    background-size: 100vw 100vh;
 }
 
 .puntaje{
@@ -148,7 +145,7 @@ body{
     font-family: 'Alfa Slab One', cursive;
     position: relative;
     display: inline-block;
-    color: #c520208a;
+    color: #e9cdcdc0;
     text-transform: uppercase;
     animation: waviy 1s infinite;
     animation-delay: calc(.1s * var(--i));
@@ -162,4 +159,3 @@ body{
       transform: translateY(-45px)
     }
 }
-
