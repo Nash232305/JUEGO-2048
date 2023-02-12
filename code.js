@@ -1,13 +1,13 @@
 let tablero = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
-let filas =  [0,0,0,0 ]; 
-let columnas = [0,0,0,0 ];
+
 
 
 //****************************************************************************************** */
 //inicio del programa
 window.onload = function(){
     iniciarTablero();
-
+    
+    contarMovimientos();
 }
 //****************************************************************************************** */
 
@@ -164,7 +164,6 @@ function mover(event, tablero) {
       }
       actualizarTablero(tablero);
       agregarFicha(tablero);
-      fusionarFichas(tablero);
     }
 }
 
@@ -209,3 +208,22 @@ function agregarFicha(tablero) {
     return { row, col, value };
   }
    
+
+  function contarMovimientos() {
+    // obtener elemento relevante
+    const cantidades = document.getElementById("cantidades");
+    let valorActual = 0;
+    let casillasVacias = tablero.length * tablero.length; // cantidad de casillas vacías en el tablero 
+
+    // agregar escuchador de eventos al documento para detectar cuando se presiona una tecla
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        // verificar si hay casillas vacías antes de contar el movimiento
+        if (casillasVacias > 0) {
+          valorActual++;
+          cantidades.value = valorActual;
+          casillasVacias--;
+        }
+      }
+    });
+  }

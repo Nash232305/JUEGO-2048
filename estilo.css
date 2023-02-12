@@ -22,7 +22,7 @@ body{
     font-size: 13px;
     font-weight: bold;
     top: 58%;
-    left: 78%;
+    left: 79%;
     position: absolute;
     color: #fff;
 }
@@ -62,14 +62,12 @@ body{
     display:flex;
     align-items: center;
     justify-content: center;
-    width: 156px;
-    height: 20px;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: bold;
     text-align: center;
     border-style: none;
     background: rgba(67, 204, 204, 0.397);
-    color: rgb(17, 16, 16);
+    color: rgb(0, 0, 0);
 }
 
 .marcador>input{
@@ -124,14 +122,11 @@ body{
     align-items: center;
     justify-content: center;
     font-size: 70px;
-    font-weight: bold;
-    color: white;
 }
 
 .numeros>span{
     font-size: 70px;
-    font-weight: bold;
-    color: white;
+    
     margin-left: 55px;
     margin-right: 45px;
 }
@@ -145,7 +140,7 @@ body{
     font-family: 'Alfa Slab One', cursive;
     position: relative;
     display: inline-block;
-    color: #e9cdcdc0;
+    color: #e7dbdbfb;
     text-transform: uppercase;
     animation: waviy 1s infinite;
     animation-delay: calc(.1s * var(--i));
