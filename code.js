@@ -46,19 +46,16 @@ function dibujar(){
     for(let i =0; i <= 3; i++){
         for(let j = 0; j <= 3; j++){
             if (tablero[i][j]==0){
-                continue
+              document.getElementById(i+"."+j).innerHTML = ""; /* remove the text */ 
+              document.getElementById(i+"."+j).className = "columnas";
             }
             else{
                 //Busca los divs que tenga de id i.j y les pone el numero que hay en a matriz
                 let numero = tablero[i][j];
                 //donde se ponga el numero su fondo se pone blanco
-                document.getElementById(i+"."+j).style.color = "black";
-                document.getElementById(i+"."+j).innerHTML = '<p class = "x'+numero.toString()+'">'+numero.toString()+"</p>";
-                document.getElementById(i+"."+j).style.backgroundColor = "beige";
-                document.getElementById(i+"."+j).style.fontSize = "50px";
-                document.getElementById(i+"."+j).style.textAlign = "center";
-                //ESTILO DE LA LETRA DEPENDIENDO DEL NUMERO
-                document.getElementById(i+"."+j).style.fontFamily = " sans-serif";
+                let elemento = document.getElementById(i+"."+j)
+                elemento.innerHTML = numero.toString()
+                elemento.className = "columnas x"+numero.toString()
                     
             }
         }
@@ -109,6 +106,25 @@ function moverArriba(tablero)
     }
   }
   
+function fusionar()
+{
+  num1 = 0;
+  num2 = 0;
+  resultado = 0;
+  for (i=0;i<=3;i++)
+  {
+    for (j=0;j<=3;j++)
+    {
+      if(num1[i][j]==num2[i][j])
+      {
+        (num1 + num2)=resultado;
+        num1 = 0;
+        num2 = 0;
+
+      }
+    }
+  }
+}
   
   function moverIzquierda(tablero) {
     for (let i = 0; i < tablero.length; i++) {
@@ -139,64 +155,34 @@ function moverArriba(tablero)
       }
     }
   }
-  
-  
-
-function actualizarTablero() {
-    for(let i =0; i <= 3; i++){
-        for(let j = 0; j <= 3; j++){
-            if (tablero[i][j] == 0){
-                document.getElementById(i+"."+j).innerHTML = ""; /* remove the text */ 
-                document.getElementById(i+"."+j).style.background = "";
-            }
-            else{
-                document.getElementById(i+"."+j).innerHTML = tablero[i][j];
-                document.getElementById(i+"."+j).style.backgroundColor = "beige";
-                document.getElementById(i+"."+j).style.color = "black";
-                document.getElementById(i+"."+j).style.fontSize = "50px";
-                document.getElementById(i+"."+j).style.textAlign = "center";
-                //ESTILO DE LA LETRA DEPENDIENDO DEL NUMERO
-                document.getElementById(i+"."+j).style.fontFamily = " sans-serif";
-            }
-        }
-    }
-}
-
-function updateTile(tile, num) {
-    tile.innerText = "";
-    tile.classList.value = ""; //clear the classList
-    tile.classList.add("tile");
-    if (num > 0) {
-        tile.innerText = num.toString();
-        if (num <= 4096) {
-            tile.classList.add("x"+num.toString());
-        } else {
-            tile.classList.add("x8192");
-        }                
-    }
-}
 
 function mover(event, tablero) {
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.code)) {
       if (event.code === "ArrowUp") {
         moverArriba(tablero);
+       agregarFicha(tablero);
       } else if (event.code === 'ArrowDown') {
         moverAbajo(tablero);
+        
+        agregarFicha(tablero);
       } else if (event.code === 'ArrowLeft') {
         moverIzquierda(tablero);
+        
+        agregarFicha(tablero);
       } else if (event.code === 'ArrowRight') {
         moverDerecha(tablero);
-      }
-      actualizarTablero(tablero);
+        
       agregarFicha(tablero);
-      updateTile(tablero);
+      }
+      //actualizarTablero(tablero);
+      dibujar();
+      //updateTile(tablero);
     }
 }
 
 document.addEventListener('keydown', function(event) {
     mover(event, tablero);
 });
-  
 
 
 function agregarFicha(tablero) {
@@ -220,7 +206,7 @@ function agregarFicha(tablero) {
     const { row, col } = emptyCells[randomIndex];
     //si la celda aleatoria no está vacía, busca otra celda vacía
     if (tablero[row][col] !== 0) {
-      emptyCells.splice(randomIndex, 1);
+      emptyCells.splice(randomIndex, 0);
       return agregarFicha(tablero);
     }
     
