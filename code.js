@@ -53,7 +53,7 @@ function dibujar(){
                 let numero = tablero[i][j];
                 //donde se ponga el numero su fondo se pone blanco
                 document.getElementById(i+"."+j).style.color = "black";
-                document.getElementById(i+"."+j).innerHTML = numero;
+                document.getElementById(i+"."+j).innerHTML = '<p class = "x'+numero.toString()+'">'+numero.toString()+"</p>";
                 document.getElementById(i+"."+j).style.backgroundColor = "beige";
                 document.getElementById(i+"."+j).style.fontSize = "50px";
                 document.getElementById(i+"."+j).style.textAlign = "center";
@@ -66,12 +66,21 @@ function dibujar(){
     }
 
 }
-function moverArriba(tablero) {
-    for (let j = 0; j < tablero.length; j++) {
-      for (let i = 1; i < tablero.length; i++) {
-        if (tablero[i][j] !== 0) {
+/**
+ * Funcion que mueve hacia arriba las fichas mediante teclas
+ * @param {*} tablero 
+ */
+function moverArriba(tablero) 
+{
+    for (let j = 0; j < tablero.length; j++)
+    {
+      for (let i = 1; i < tablero.length; i++)
+      {
+        if (tablero[i][j] !== 0)
+        {
           let k = i;
-          while (k > 0 && tablero[k-1][j] === 0) {
+          while (k > 0 && tablero[k-1][j] === 0) 
+          {
             tablero[k-1][j] = tablero[k][j];
             tablero[k][j] = 0;
             k--;
@@ -79,8 +88,12 @@ function moverArriba(tablero) {
         }
       }
     }
-  }
+}
   
+/**
+ * Funcion que mueve hacia abajo las fichas mediante teclas
+ * @param {*} tablero 
+ */
   function moverAbajo(tablero) {
     for (let j = 0; j < tablero.length; j++) {
       for (let i = tablero.length - 2; i >= 0; i--) {
@@ -147,7 +160,20 @@ function actualizarTablero() {
             }
         }
     }
-    
+}
+
+function updateTile(tile, num) {
+    tile.innerText = "";
+    tile.classList.value = ""; //clear the classList
+    tile.classList.add("tile");
+    if (num > 0) {
+        tile.innerText = num.toString();
+        if (num <= 4096) {
+            tile.classList.add("x"+num.toString());
+        } else {
+            tile.classList.add("x8192");
+        }                
+    }
 }
 
 function mover(event, tablero) {
@@ -163,14 +189,9 @@ function mover(event, tablero) {
       }
       actualizarTablero(tablero);
       agregarFicha(tablero);
-      fusionarFichas(tablero);
+      updateTile(tablero);
     }
 }
-
-
-  
-  
-
 
 document.addEventListener('keydown', function(event) {
     mover(event, tablero);
@@ -207,4 +228,4 @@ function agregarFicha(tablero) {
     tablero[row][col] = value;
     return { row, col, value };
   }
-   
+
