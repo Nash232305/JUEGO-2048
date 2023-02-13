@@ -105,27 +105,70 @@ function moverArriba(tablero)
       }
     }
   }
-  
-function fusionar()
-{
-  num1 = 0;
-  num2 = 0;
-  resultado = 0;
-  for (i=0;i<=3;i++)
+
+  function fusionarArriba()
   {
     for (j=0;j<=3;j++)
     {
-      if(num1[i][j]==num2[i][j])
+      for (i=3;i>0;i--)
       {
-        (num1 + num2)=resultado;
-        num1 = 0;
-        num2 = 0;
-
+        if(tablero[i][j]==tablero[i-1][j])
+        {
+          //suma lo que esta arriba y limpia lo que esta arriba
+          tablero[i][j]+=tablero[i-1][j];
+          tablero[i-1][j]=0;
+        }
       }
     }
   }
-}
-  
+
+  function fusionarAbajo()
+  {
+    for (j=0;j<=3;j++)
+    {
+      for (i=0;i<3;i++)
+      {
+        if(tablero[i][j]==tablero[i+1][j])
+        {
+          //suma lo que esta abajo y limpia lo que esta abajo
+          tablero[i][j]+=tablero[i+1][j];
+          tablero[i+1][j]=0;
+        }
+      }
+    }
+  }
+  function fusionarIzquierda()
+  {
+    for (i=0;i<=3;i++)
+    {
+      for (j=0;j<3;j++)
+      {
+        if(tablero[i][j]==tablero[i][j+1])
+        {
+          //suma lo que esta a la derecha y limpia lo que esta a la derecha
+          tablero[i][j]+=tablero[i][j+1];
+          tablero[i][j+1]=0;
+        }
+      }
+    }
+  }
+
+  function fusionarDerecha()
+  {
+    for (i=0;i<=3;i++)
+    {
+      for (j=3;j>0;j--)
+      {
+        if(tablero[i][j]==tablero[i][j-1])
+        {
+          //suma lo que esta a la derecha y limpia lo que esta a la derecha
+          tablero[i][j]+=tablero[i][j-1];
+          tablero[i][j-1]=0;
+        }
+      }
+    }
+  }
+
   function moverIzquierda(tablero) {
     for (let i = 0; i < tablero.length; i++) {
       for (let j = 1; j < tablero.length; j++) {
@@ -160,19 +203,26 @@ function mover(event, tablero) {
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.code)) {
       if (event.code === "ArrowUp") {
         moverArriba(tablero);
-       agregarFicha(tablero);
+        fusionarArriba();
+        moverArriba(tablero);
+        agregarFicha(tablero);
+
       } else if (event.code === 'ArrowDown') {
         moverAbajo(tablero);
-        
+        fusionarAbajo();
+        moverAbajo(tablero);
         agregarFicha(tablero);
       } else if (event.code === 'ArrowLeft') {
         moverIzquierda(tablero);
-        
+        fusionarIzquierda();
+        moverIzquierda(tablero);
         agregarFicha(tablero);
+
       } else if (event.code === 'ArrowRight') {
         moverDerecha(tablero);
-        
-      agregarFicha(tablero);
+        fusionarDerecha();
+        moverDerecha(tablero);
+        agregarFicha(tablero);
       }
       //actualizarTablero(tablero);
       dibujar();
