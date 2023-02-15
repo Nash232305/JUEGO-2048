@@ -1,13 +1,15 @@
 let tablero = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
-
+let puntaje = 0;
+let movimiento = 0;
 
 
 //****************************************************************************************** */
 //inicio del programa
 window.onload = function(){
     iniciarTablero();
-    
     contarMovimientos();
+    llamarModal();
+    crearModal();
 }
 //****************************************************************************************** */
 
@@ -47,19 +49,16 @@ function dibujar(){
     for(let i =0; i <= 3; i++){
         for(let j = 0; j <= 3; j++){
             if (tablero[i][j]==0){
-                continue
+              document.getElementById(i+"."+j).innerHTML = ""; /* remove the text */ 
+              document.getElementById(i+"."+j).className = "columnas";
             }
             else{
                 //Busca los divs que tenga de id i.j y les pone el numero que hay en a matriz
                 let numero = tablero[i][j];
                 //donde se ponga el numero su fondo se pone blanco
-                document.getElementById(i+"."+j).style.color = "black";
-                document.getElementById(i+"."+j).innerHTML = numero;
-                document.getElementById(i+"."+j).style.backgroundColor = "beige";
-                document.getElementById(i+"."+j).style.fontSize = "50px";
-                document.getElementById(i+"."+j).style.textAlign = "center";
-                //ESTILO DE LA LETRA DEPENDIENDO DEL NUMERO
-                document.getElementById(i+"."+j).style.fontFamily = " sans-serif";
+                let elemento = document.getElementById(i+"."+j)
+                elemento.innerHTML = numero.toString()
+                elemento.className = "columnas x"+numero.toString()
                     
             }
         }
@@ -67,12 +66,21 @@ function dibujar(){
     }
 
 }
-function moverArriba(tablero) {
-    for (let j = 0; j < tablero.length; j++) {
-      for (let i = 1; i < tablero.length; i++) {
-        if (tablero[i][j] !== 0) {
+/**
+ * Funcion que mueve hacia arriba las fichas mediante teclas
+ * @param {*} tablero 
+ */
+function moverArriba(tablero) 
+{
+    for (let j = 0; j < tablero.length; j++)
+    {
+      for (let i = 1; i < tablero.length; i++)
+      {
+        if (tablero[i][j] !== 0)
+        {
           let k = i;
-          while (k > 0 && tablero[k-1][j] === 0) {
+          while (k > 0 && tablero[k-1][j] === 0) 
+          {
             tablero[k-1][j] = tablero[k][j];
             tablero[k][j] = 0;
             k--;
@@ -80,8 +88,12 @@ function moverArriba(tablero) {
         }
       }
     }
-  }
+}
   
+/**
+ * Funcion que mueve hacia abajo las fichas mediante teclas
+ * @param {*} tablero 
+ */
   function moverAbajo(tablero) {
     for (let j = 0; j < tablero.length; j++) {
       for (let i = tablero.length - 2; i >= 0; i--) {
@@ -96,8 +108,81 @@ function moverArriba(tablero) {
       }
     }
   }
-  
-  
+
+  function fusionarArriba()
+  {
+    
+    for (j=0;j<=3;j++)
+    {
+      for (i=3;i>0;i--)
+      {
+        if(tablero[i][j]==tablero[i-1][j])
+        {
+          //suma lo que esta arriba y limpia lo que esta arriba
+          tablero[i][j]+=tablero[i-1][j];
+          puntaje+=tablero[i][j];
+          tablero[i-1][j]=0;
+        }
+      }
+    }
+    document.getElementById("marcadores").value = puntaje;
+
+  }
+
+  function fusionarAbajo()
+  {
+    for (j=0;j<=3;j++)
+    {
+      for (i=0;i<3;i++)
+      {
+        if(tablero[i][j]==tablero[i+1][j])
+        {
+          //suma lo que esta abajo y limpia lo que esta abajo
+          tablero[i][j]+=tablero[i+1][j];
+          tablero[i+1][j]=0;
+          tablero[i+1][j]=0;
+        }
+      }
+    }
+    document.getElementById("marcadores").value = puntaje;
+    
+
+  }
+  function fusionarIzquierda()
+  {
+    for (i=0;i<=3;i++)
+    {
+      for (j=0;j<3;j++)
+      {
+        if(tablero[i][j]==tablero[i][j+1])
+        {
+          //suma lo que esta a la derecha y limpia lo que esta a la derecha
+          tablero[i][j]+=tablero[i][j+1];
+          puntaje+=tablero[i][j];
+          tablero[i][j+1]=0;
+        }
+      }
+    }
+     document.getElementById("marcadores").value = puntaje;
+  }
+
+  function fusionarDerecha()
+  {
+    for (i=0;i<=3;i++)
+    {
+      for (j=3;j>0;j--)
+      {
+        if(tablero[i][j]==tablero[i][j-1])
+        {
+          tablero[i][j]+=tablero[i][j-1];
+          puntaje+=tablero[i][j];
+          tablero[i][j-1]=0;
+        }
+      }
+    }
+    document.getElementById("marcadores").value = puntaje;
+  }
+
   function moverIzquierda(tablero) {
     for (let i = 0; i < tablero.length; i++) {
       for (let j = 1; j < tablero.length; j++) {
@@ -127,55 +212,39 @@ function moverArriba(tablero) {
       }
     }
   }
-  
-  
-
-function actualizarTablero() {
-    for(let i =0; i <= 3; i++){
-        for(let j = 0; j <= 3; j++){
-            if (tablero[i][j] == 0){
-                document.getElementById(i+"."+j).innerHTML = ""; /* remove the text */ 
-                document.getElementById(i+"."+j).style.background = "";
-            }
-            else{
-                document.getElementById(i+"."+j).innerHTML = tablero[i][j];
-                document.getElementById(i+"."+j).style.backgroundColor = "beige";
-                document.getElementById(i+"."+j).style.color = "black";
-                document.getElementById(i+"."+j).style.fontSize = "50px";
-                document.getElementById(i+"."+j).style.textAlign = "center";
-                //ESTILO DE LA LETRA DEPENDIENDO DEL NUMERO
-                document.getElementById(i+"."+j).style.fontFamily = " sans-serif";
-            }
-        }
-    }
-    
-}
 
 function mover(event, tablero) {
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.code)) {
       if (event.code === "ArrowUp") {
         moverArriba(tablero);
+        fusionarArriba();
+        moverArriba(tablero);
+        agregarFicha(tablero);
+
       } else if (event.code === 'ArrowDown') {
         moverAbajo(tablero);
+        fusionarAbajo();
+        moverAbajo(tablero);
+        agregarFicha(tablero);
       } else if (event.code === 'ArrowLeft') {
         moverIzquierda(tablero);
+        fusionarIzquierda();
+        moverIzquierda(tablero);
+        agregarFicha(tablero);
+
       } else if (event.code === 'ArrowRight') {
         moverDerecha(tablero);
+        fusionarDerecha();
+        moverDerecha(tablero);
+        agregarFicha(tablero);
       }
-      actualizarTablero(tablero);
-      agregarFicha(tablero);
+      dibujar();
     }
 }
-
-
-  
-  
-
 
 document.addEventListener('keydown', function(event) {
     mover(event, tablero);
 });
-  
 
 
 function agregarFicha(tablero) {
@@ -199,7 +268,7 @@ function agregarFicha(tablero) {
     const { row, col } = emptyCells[randomIndex];
     //si la celda aleatoria no está vacía, busca otra celda vacía
     if (tablero[row][col] !== 0) {
-      emptyCells.splice(randomIndex, 1);
+      emptyCells.splice(randomIndex, 0);
       return agregarFicha(tablero);
     }
     
@@ -207,23 +276,105 @@ function agregarFicha(tablero) {
     tablero[row][col] = value;
     return { row, col, value };
   }
-   
+
+  
 
   function contarMovimientos() {
-    // obtener elemento relevante
     const cantidades = document.getElementById("cantidades");
-    let valorActual = 0;
-    let casillasVacias = tablero.length * tablero.length; // cantidad de casillas vacías en el tablero 
-
-    // agregar escuchador de eventos al documento para detectar cuando se presiona una tecla
+    let movimientos = document.getElementById("movimientos");
+    
     document.addEventListener("keydown", (event) => {
       if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
-        // verificar si hay casillas vacías antes de contar el movimiento
-        if (casillasVacias > 0) {
-          valorActual++;
-          cantidades.value = valorActual;
-          casillasVacias--;
+        let hayCasillaVacia = false;
+        for (let i = 0; i < tablero.length; i++) { 
+          for (let j = 0; j < tablero[i].length; j++) { 
+            if (tablero[i][j] === 0) { 
+              hayCasillaVacia = true;
+              break;
+            }
+          }
+          if (hayCasillaVacia) {
+            break;
+          }
+        }
+        if (hayCasillaVacia) {
+          movimiento++;
+          cantidades.value = movimiento;
+          movimientos.value = movimiento;
         }
       }
     });
+    
   }
+
+  function crearModal(html){
+    const modal = document.createAttribute("div");
+
+    modal.style.position = "fixed";
+    modal.style.top = 0;
+    modal.style.left = 0;
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.backgroundColor = "rgba(0,0,0,0.8)";
+
+    const contenido = document.createAttribute("div");
+
+    contenido.style.position = "absolute";
+    contenido.style.top = "50%";
+    contenido.style.left = "50%";
+    contenido.style.transform = "translate(-50%, -50%)";
+    contenido.style.backgroundColor = "white";
+    contenido.style.padding = "20px";
+
+    contenido.innerHTML = html;
+
+    modal.appendChild(contenido);
+
+    document.body.appendChild(modal);
+
+
+    
+    crearModal(
+    <div class="modal">
+      <div class="contenedor1">
+        <header>RESULTADOS</header>
+    
+
+        <div class="contenido">
+            <p>El puntaje obtenido es: </p>
+            <p>El número de movimientos es: </p>
+            <p>DESEA VOLVER A JUGAR?</p>
+
+            <button class="btn1" id="si">SI</button>
+            <button class="btn2" id="no">NO</button>
+        </div>
+
+        <div class="cajaPuntaje">
+            <input type="text" id="puntaje" readonly> </input>
+        </div>
+        
+        <div class="cajaMovimientos">
+            <input type="text" id="movimientos" readonly></input>
+        </div>
+   
+    </div>
+</div>)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  }
+
+
