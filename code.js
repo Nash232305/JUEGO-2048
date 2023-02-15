@@ -126,7 +126,6 @@ function moverArriba(tablero)
       }
     }
     document.getElementById("marcadores").value = puntaje;
-
   }
 
   function fusionarAbajo()
@@ -145,8 +144,6 @@ function moverArriba(tablero)
       }
     }
     document.getElementById("marcadores").value = puntaje;
-    
-
   }
   function fusionarIzquierda()
   {
@@ -163,7 +160,7 @@ function moverArriba(tablero)
         }
       }
     }
-     document.getElementById("marcadores").value = puntaje;
+    document.getElementById("marcadores").value = puntaje;
   }
 
   function fusionarDerecha()
@@ -306,3 +303,40 @@ function agregarFicha(tablero) {
     });
     
   }
+  
+  function gameOver(tablero){
+    //validar de izquierda a derecha
+    for (let i=0;i <=3 ;i++)
+    {
+      for (let j=0;j <=3 ;j++)
+      {
+        if(tablero[i][j] != tablero[i][j+1])
+        {
+          continue;
+        }
+        else
+        {
+          return false
+        }
+      }
+    }
+    //validar de arriba a abajo
+    for (let j=0;j <=3 ;j++)
+    {
+      for (let i=0;i <=3 ;i++)
+      {
+        if(tablero[i][j] != tablero[i+1][j])
+        {
+          continue;
+        }
+        else
+        {
+          return false
+        }
+      }
+    }
+
+    return true
+
+  }
+  
