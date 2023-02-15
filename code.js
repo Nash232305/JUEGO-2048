@@ -1,12 +1,15 @@
 let tablero = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
-
+let puntaje = 0;
+let movimiento = 0;
 
 
 //****************************************************************************************** */
 //inicio del programa
 window.onload = function(){
     iniciarTablero();
-
+    contarMovimientos();
+    llamarModal();
+    crearModal();
 }
 //****************************************************************************************** */
 
@@ -108,6 +111,7 @@ function moverArriba(tablero)
 
   function fusionarArriba()
   {
+    
     for (j=0;j<=3;j++)
     {
       for (i=3;i>0;i--)
@@ -116,10 +120,13 @@ function moverArriba(tablero)
         {
           //suma lo que esta arriba y limpia lo que esta arriba
           tablero[i][j]+=tablero[i-1][j];
+          puntaje+=tablero[i][j];
           tablero[i-1][j]=0;
         }
       }
     }
+    document.getElementById("marcadores").value = puntaje;
+
   }
 
   function fusionarAbajo()
@@ -133,9 +140,13 @@ function moverArriba(tablero)
           //suma lo que esta abajo y limpia lo que esta abajo
           tablero[i][j]+=tablero[i+1][j];
           tablero[i+1][j]=0;
+          tablero[i+1][j]=0;
         }
       }
     }
+    document.getElementById("marcadores").value = puntaje;
+    
+
   }
   function fusionarIzquierda()
   {
@@ -147,10 +158,12 @@ function moverArriba(tablero)
         {
           //suma lo que esta a la derecha y limpia lo que esta a la derecha
           tablero[i][j]+=tablero[i][j+1];
+          puntaje+=tablero[i][j];
           tablero[i][j+1]=0;
         }
       }
     }
+     document.getElementById("marcadores").value = puntaje;
   }
 
   function fusionarDerecha()
@@ -161,12 +174,13 @@ function moverArriba(tablero)
       {
         if(tablero[i][j]==tablero[i][j-1])
         {
-          //suma lo que esta a la derecha y limpia lo que esta a la derecha
           tablero[i][j]+=tablero[i][j-1];
+          puntaje+=tablero[i][j];
           tablero[i][j-1]=0;
         }
       }
     }
+    document.getElementById("marcadores").value = puntaje;
   }
 
   function moverIzquierda(tablero) {
@@ -224,9 +238,7 @@ function mover(event, tablero) {
         moverDerecha(tablero);
         agregarFicha(tablero);
       }
-      //actualizarTablero(tablero);
       dibujar();
-      //updateTile(tablero);
     }
 }
 
@@ -264,4 +276,105 @@ function agregarFicha(tablero) {
     tablero[row][col] = value;
     return { row, col, value };
   }
+
+  
+
+  function contarMovimientos() {
+    const cantidades = document.getElementById("cantidades");
+    let movimientos = document.getElementById("movimientos");
+    
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        let hayCasillaVacia = false;
+        for (let i = 0; i < tablero.length; i++) { 
+          for (let j = 0; j < tablero[i].length; j++) { 
+            if (tablero[i][j] === 0) { 
+              hayCasillaVacia = true;
+              break;
+            }
+          }
+          if (hayCasillaVacia) {
+            break;
+          }
+        }
+        if (hayCasillaVacia) {
+          movimiento++;
+          cantidades.value = movimiento;
+          movimientos.value = movimiento;
+        }
+      }
+    });
+    
+  }
+
+  function crearModal(html){
+    const modal = document.createAttribute("div");
+
+    modal.style.position = "fixed";
+    modal.style.top = 0;
+    modal.style.left = 0;
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.backgroundColor = "rgba(0,0,0,0.8)";
+
+    const contenido = document.createAttribute("div");
+
+    contenido.style.position = "absolute";
+    contenido.style.top = "50%";
+    contenido.style.left = "50%";
+    contenido.style.transform = "translate(-50%, -50%)";
+    contenido.style.backgroundColor = "white";
+    contenido.style.padding = "20px";
+
+    contenido.innerHTML = html;
+
+    modal.appendChild(contenido);
+
+    document.body.appendChild(modal);
+
+
+    
+    crearModal(
+    <div class="modal">
+      <div class="contenedor1">
+        <header>RESULTADOS</header>
+    
+
+        <div class="contenido">
+            <p>El puntaje obtenido es: </p>
+            <p>El número de movimientos es: </p>
+            <p>DESEA VOLVER A JUGAR?</p>
+
+            <button class="btn1" id="si">SI</button>
+            <button class="btn2" id="no">NO</button>
+        </div>
+
+        <div class="cajaPuntaje">
+            <input type="text" id="puntaje" readonly> </input>
+        </div>
+        
+        <div class="cajaMovimientos">
+            <input type="text" id="movimientos" readonly></input>
+        </div>
+   
+    </div>
+</div>)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  }
+
 
