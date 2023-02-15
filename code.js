@@ -9,8 +9,7 @@ window.onload = function(){
     iniciarTablero();
     contarMovimientos();
     llamarModal();
-    crearModal();
-    
+
 }
 //****************************************************************************************** */
 
@@ -307,75 +306,3 @@ function agregarFicha(tablero) {
     });
     
   }
-
-  function crearModal(html){
-    const modal = document.createAttribute("div");
-
-    modal.style.position = "fixed";
-    modal.style.top = 0;
-    modal.style.left = 0;
-    modal.style.width = "100%";
-    modal.style.height = "100%";
-    modal.style.backgroundColor = "rgba(0,0,0,0.8)";
-
-    const contenido = document.createAttribute("div");
-
-    contenido.style.position = "absolute";
-    contenido.style.top = "50%";
-    contenido.style.left = "50%";
-    contenido.style.transform = "translate(-50%, -50%)";
-    contenido.style.backgroundColor = "white";
-    contenido.style.padding = "20px";
-
-    contenido.innerHTML = html;
-
-    modal.appendChild(contenido);
-
-    document.body.appendChild(modal);
-
-
-    
-    crearModal(
-    <div class="modal">
-      <div class="contenedor1">
-        <header>RESULTADOS</header>
-    
-
-        <div class="contenido">
-            <p>El puntaje obtenido es: </p>
-            <p>El número de movimientos es: </p>
-            <p>DESEA VOLVER A JUGAR?</p>
-
-            <button class="btn1" id="si">SI</button>
-            <button class="btn2" id="no">NO</button>
-        </div>
-
-        <div class="cajaPuntaje">
-            <input type="text" id="puntaje" readonly> </input>
-        </div>
-        
-        <div class="cajaMovimientos">
-            <input type="text" id="movimientos" readonly></input>
-        </div>
-   
-    </div>
-</div>)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  }
-
-
