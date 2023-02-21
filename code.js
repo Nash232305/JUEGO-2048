@@ -8,8 +8,10 @@ let movimiento = 0;
 window.onload = function(){
     iniciarTablero();
     contarMovimientos();
-    llamarModal();
-    crearModal();
+    contarTiempo(mover);
+   
+    
+
 }
 //****************************************************************************************** */
 
@@ -126,7 +128,6 @@ function moverArriba(tablero)
       }
     }
     document.getElementById("marcadores").value = puntaje;
-
   }
 
   function fusionarAbajo()
@@ -139,14 +140,12 @@ function moverArriba(tablero)
         {
           //suma lo que esta abajo y limpia lo que esta abajo
           tablero[i][j]+=tablero[i+1][j];
-          tablero[i+1][j]=0;
+          puntaje+=tablero[i][j];
           tablero[i+1][j]=0;
         }
       }
     }
     document.getElementById("marcadores").value = puntaje;
-    
-
   }
   function fusionarIzquierda()
   {
@@ -163,7 +162,7 @@ function moverArriba(tablero)
         }
       }
     }
-     document.getElementById("marcadores").value = puntaje;
+    document.getElementById("marcadores").value = puntaje;
   }
 
   function fusionarDerecha()
@@ -239,13 +238,46 @@ function mover(event, tablero) {
         agregarFicha(tablero);
       }
       dibujar();
+
+      if (!gameOver(tablero)) {
+        modal(`
+        <div class="modal" >
+        <div class="contenedor1">
+            <header>RESULTADOS</header>
+            <div class="contenido">
+                <p>El puntaje obtenido es: </p>
+                <p>El número de movimientos es: </p>
+                <p>Tiempo realizado: </p>
+                <p>¿DESEA VOLVER A JUGAR?</p>
+
+                <div class ="cajaP">
+                  <input type="text" id="puntajeT" value readonly>
+                </div>
+        
+                <div class ="cajaM">
+                  <input type="text" id="movimientoT" value readonly>
+                </div>
+            
+                <div class ="cajaT">
+                  <input type="text" id="tiempoT" value readonly>
+                </div>
+
+                <button class="btn1" id="si" onclick="location.reload()">SI</button>
+                <button class="btn2" id="no" onClick=eliminarModal()>NO</button>
+            </div>
+        </div>
+    </div>
+          `)
+      }
+      document.getElementById("puntajeT").value = puntaje;
+      document.getElementById("movimientoT").value = movimiento;
+      
     }
 }
 
-document.addEventListener('keydown', function(event) {
-    mover(event, tablero);
+document.addEventListener("keydown", function(event) {
+  mover(event, tablero);
 });
-
 
 function agregarFicha(tablero) {
     // Genera una nueva ficha con valor 2 o 4 (con probabilidad 0.9 y 0.1 respectivamente)
@@ -282,6 +314,7 @@ function agregarFicha(tablero) {
   function contarMovimientos() {
     const cantidades = document.getElementById("cantidades");
     let movimientos = document.getElementById("movimientos");
+   
     
     document.addEventListener("keydown", (event) => {
       if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
@@ -301,80 +334,113 @@ function agregarFicha(tablero) {
           movimiento++;
           cantidades.value = movimiento;
           movimientos.value = movimiento;
+         
+
         }
       }
     });
     
   }
+  
 
-  function crearModal(html){
-    const modal = document.createAttribute("div");
+//funcion que me manda a llamar el modal 
+function modal(html) {
+  const modal = document.getElementById("modal-container");
+  modal.style.position = 'fixed';
+  modal.style.top = '0';
+  modal.style.left = '0';
+  modal.style.width = '100%';
+  modal.style.height = '100%';
+  modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
 
-    modal.style.position = "fixed";
-    modal.style.top = 0;
-    modal.style.left = 0;
-    modal.style.width = "100%";
-    modal.style.height = "100%";
-    modal.style.backgroundColor = "rgba(0,0,0,0.8)";
+  const contenedor1 = document.getElementById("modal-background");
 
-    const contenido = document.createAttribute("div");
+  contenedor1.style.position = 'absolute';
+  contenedor1.innerHTML = html;
+  modal.appendChild(contenedor1);
 
-    contenido.style.position = "absolute";
-    contenido.style.top = "50%";
-    contenido.style.left = "50%";
-    contenido.style.transform = "translate(-50%, -50%)";
-    contenido.style.backgroundColor = "white";
-    contenido.style.padding = "20px";
-
-    contenido.innerHTML = html;
-
-    modal.appendChild(contenido);
-
-    document.body.appendChild(modal);
+  document.body.appendChild(modal);
+}
 
 
-    
-    crearModal(
-    <div class="modal">
-      <div class="contenedor1">
-        <header>RESULTADOS</header>
-    
-
-        <div class="contenido">
-            <p>El puntaje obtenido es: </p>
-            <p>El número de movimientos es: </p>
-            <p>DESEA VOLVER A JUGAR?</p>
-
-            <button class="btn1" id="si">SI</button>
-            <button class="btn2" id="no">NO</button>
-        </div>
-
-        <div class="cajaPuntaje">
-            <input type="text" id="puntaje" readonly> </input>
-        </div>
-        
-        <div class="cajaMovimientos">
-            <input type="text" id="movimientos" readonly></input>
-        </div>
-   
-    </div>
-</div>)
+function eliminarModal() {
+  const modal = document.getElementById("modal-container");
+  const contenedor1 = document.getElementById("modal-background");
+  
+  // Eliminar el contenido del contenedor1
+  contenedor1.innerHTML = "";
+  
+  // Remover el contenedor1 del modal
+  modal.removeChild(contenedor1);
+  
+  // Esconder el modal
+  modal.style.display = "none";
+}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+function gameOver(tablero) {
+  for (let i = 0; i < tablero.length; i++) {
+    for (let i = 0; i < tablero.length; i++) {
+      for (let j = 0; j < tablero[i].length; j++) {
+        if (tablero[i][j] === 0) {
+          return true;
+        }
+        if (i !== 0 && tablero[i - 1][j] === tablero[i][j]) {
+          return true;
+        }
+        if (i !== tablero.length - 1 && tablero[i + 1][j] === tablero[i][j]) {
+          return true;
+        }
+        if (j !== 0 && tablero[i][j - 1] === tablero[i][j]) {
+          return true;
+        }
+        if (j !== tablero[i].length - 1 && tablero[i][j + 1] === tablero[i][j]) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
+}
+
+function contarTiempo() {
+  let tiempo = document.getElementById("cronometro");
+  let minutos = 0;
+  let segundos = 0;
+
+  let intervalo = setInterval(function () {
+    segundos++;
+    if (segundos === 60) {
+      minutos++;
+      segundos = 0;
+    }
+    if (gameOver(tablero) === false) {
+      clearInterval(intervalo);
+      const tiempoT= document.getElementById("tiempoT");
+      tiempoT.value = `${minutos} : ${segundos}`;
+    }
+    if (ganador(tablero) === true) {
+      clearInterval(intervalo);
+      const tiempoT= document.getElementById("tiempoT");
+      tiempoT.value = `${minutos} : ${segundos}`;
+    }
+    tiempo. value = `${minutos} : ${segundos}`;
+   
+   
+
+  }, 1000);
+}
+
+function ganador(tablero) {
+  for (let i = 0; i < tablero.length; i++) { // Recorre el tablero
+    for (let j = 0; j < tablero[i].length; j++) { // Recorre las filas del tablero
+      if (tablero[i][j] === 2048) { // Si la celda tiene el valor 2048
+        return true; // El jugador ha ganado
+      }
+    }
+  }
+  return false; // El jugador no ha ganado
+}
 
 

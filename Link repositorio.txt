@@ -1,0 +1,3 @@
+Estudiantes: Hengerlyn Nash, Nicole Luna, Maverick Bryan
+
+link: https://github.com/Nash232305/JUEGO-2048.git
